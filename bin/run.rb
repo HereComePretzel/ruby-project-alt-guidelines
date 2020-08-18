@@ -1,4 +1,5 @@
 require_relative '../config/environment'
+ActiveRecord::Base.logger = nil
 
 def clear!
     puts 'clear'
@@ -10,12 +11,12 @@ artist_name = gets.chomp
 
 current_user = Artist.find_or_create_by(name: artist_name)
 
-puts "Welcome #{current_user.name}"
-puts "What would you like to do next?"
-puts "1. View your profile"
-puts "2. View your songs"
-puts "3. Create a song"
-puts "4. Remove a song"
+puts "Welcome #{current_user.name}!"
+puts "What would you like to do today?"
+puts "1. Search collection"
+puts "2. Modify collection"
+puts "3. Browse collection"
+puts "4. View profile"
 
 print "Enter your selection: "
 input = gets.chomp
@@ -24,33 +25,63 @@ input = gets.chomp
 
 case input
 when "1"
-    puts "Profile page"
+    puts "How would you like to search?"
+    puts "1. Artist"
+    puts "2. Album"
+    puts "3. Genre"
+    puts "4. Release year"
+    print "Enter your selection: "
+
+
 when "2"
-    puts "Here are all your songs: "
-    current_user.songs.each do |song|
-        puts "#{song.album.album_title} | #{song.song_title}"
-    end
+    puts "What would you like to change?"
+    puts "1. Add Album"
+    puts "2. Remove Album"
+    puts "3. Update Album"
+    modify = gets.chomp
+
 when "3"
-    puts "Add your song"
-    puts "Please see the list of available albums: "
-    Album.all.each do |album|
-        puts "#{album.id}. #{album.album_title}"
-    end
-
-    print "Please enter your album id: "
-    album_id = gets.chomp.to_i
-
-    print "Please enter song title: "
-    song_title = gets.chomp
-
-    Song.create(
-        song_title: song_title,
-        artist_id: current_user.id,
-        album_id: album_id
-    )
+    puts "Show all albums"
+    puts "1. Sort by Artist"
+    puts "2. Sort by Album"
+    puts "3. Sort by genre drop down li"
 
 when "4"
-    puts "Remove your song"
+    puts "See your user profile"
+end
+
+
+case modify
+when "1"
+    print "Please enter album title: "
+    album_title = gets.chomp
+
+    print "Please enter album creation year: "
+    creation_year = gets.chomp.to_i
+
+    print "Please enter album genre: "
+    genre = gets.chomp
+
+    Album.create(
+        album_title: album_title,
+        creation_year: creation_year,
+        genre: genre
+    )
+    puts "Thanks for adding your new album to this collection!"
+    puts "You can see the updated collection: "
+    Album.all.map do |album_instance|
+        puts "#{album_instance.id}. #{album_instance.album_title}"
+    end
+
+when "2"
+    puts "Select the album you want to delete: "
+    album_list = Album.all.map do |album_instance|
+        puts "#{album_instance.id}. #{album_instance.album_title}"
+    end
+    album_to_be_deleted = Album.find_by(album_id: album_id)
+    puts "Do you want to delete this album from your collection?"
+    album_to_be_deleted.destroy
+
 end
 
 # binding.pry
