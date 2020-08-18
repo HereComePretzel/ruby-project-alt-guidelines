@@ -35,6 +35,11 @@ when "1"
         when "1"
             puts "Enter Artists' name: "
             gets.chomp 
+            def find_by_album_title(album_title)
+                self.all.select do |album_instance|
+                    album_instance.album_title == self
+                end
+            end
             #returns all album instances by artist
         when "2"
             puts "Enter Album name: "
@@ -78,5 +83,6 @@ when "2"
             input = gets.chomp
             #updates album info
         end 
+    end 
 
 # binding.pry
