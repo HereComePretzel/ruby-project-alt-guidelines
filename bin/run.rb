@@ -31,19 +31,14 @@ input = gets.chomp
             when "1"
                 puts "Enter Artists' name: "
                 gets.chomp 
-                    Album.all.each do |artist_instance|
-                        artist_instance.name
-                    end
                 #returns all album instances by artist
             when "2"
                 puts "Enter Album name: "
-                gets.chomp
-                def find_by_album_title(album_title)
-                    Album.all.select do |album_instance|
-                        album_instance.album_title == self
-                        binding.pry
-                    end
-                end
+                album_choice = gets.chomp
+                find_by_album_title(album_choice)
+                puts "#{album_choice}"
+            
+
                 #returns all album instances by album_name
             when "3"
                 puts "Enter genre name: "
