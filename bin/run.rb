@@ -39,6 +39,7 @@ input = gets.chomp
                 puts "#{album_choice}"
             
 
+
                 #returns all album instances by album_name
             when "3"
                 puts "Enter genre name: "
