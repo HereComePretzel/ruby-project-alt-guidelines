@@ -16,6 +16,7 @@ puts "seeding artists"
 10.times do (
 Artist.create(name:Faker::Music.band))
 end
+
 #Song(title(s), artistid(i), albumid(i))
 puts "seeding songs"
 
