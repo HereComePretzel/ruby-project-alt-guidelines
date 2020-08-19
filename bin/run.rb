@@ -30,18 +30,21 @@ input = gets.chomp
             case input
             when "1"
                 puts "Enter Artists' name: "
-                gets.chomp 
+                artist_name = gets.chomp 
                 #returns all album instances by artist
             when "2"
                 puts "Enter Album name: "
                 #returns all album instances by album_name
             when "3"
                 puts "Enter genre name: "
-                gets.chomp
+                genre = gets.chomp
                 #returns all album instances by genre
             when "4"
                 puts "Enter release year(YYYY): "
-                gets.chomp
+                creation = gets.chomp
+                self.creation_year == creation
+                puts "#{album_title} | #{creation_year} | #{genre}"
+                
                 #returns all album instances by release year
             end 
 
