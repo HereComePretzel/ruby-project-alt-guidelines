@@ -15,8 +15,7 @@ puts "Welcome #{current_user.name}!"
 puts "What would you like to do today?"
 puts "1. Search collection"
 puts "2. Modify collection"
-puts "3. Browse collection"
-puts "4. View profile"
+puts "3. View profile"
 
 print "Enter your selection: "
 input = gets.chomp
@@ -98,20 +97,6 @@ when "2"
             puts "Deleted"
             end
             when "3"
-
-
-        
-
-        #     puts "Album title: "
-        #     input = gets.chomp
-        #     puts "are you sure?"
-        #     input = gets.chomp
-        #     #removes album by album_name
-        # when "3"
-        #     puts "Album title: "
-        #     input = gets.chomp
-        #     #updates album info
-            
         end 
     end
 

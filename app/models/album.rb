@@ -2,8 +2,8 @@ class Album < ActiveRecord::Base
     has_many :songs
     has_many :artists, through: :songs
     # def find_by_album_title(album_title)
-    #     self.all.select do |album_instance|
-    #         album_instance.album_title == self
+    #     self.all.each do |album_instance|
+    #         puts "#{album_instance}"
     #     end
     # end
 
