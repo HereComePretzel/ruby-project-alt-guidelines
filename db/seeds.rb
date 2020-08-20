@@ -10,12 +10,17 @@ puts "seeding albums"
 Album.create(album_title:Faker::Music.album, creation_year: rand(1950..2010), genre:Faker::Music.genre) 
 )
 end
+Album.create(album_title:"Oasis", creation_year: 1980, genre: "Funk")
+Album.create(album_title:"Oasis", creation_year: 1982, genre: "Funk")
+
 
 #Artist(name(s))
 puts "seeding artists"
 10.times do (
 Artist.create(name:Faker::Music.band))
 end
+Artist.create(name: "Oasis")
+
 #Song(title(s), artistid(i), albumid(i))
 puts "seeding songs"
 
