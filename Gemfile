@@ -9,4 +9,4 @@ gem "pry"
 gem "require_all"
 gem "faker"
 gem 'ruby_afplay'
-gem 'tty'
+gem 'tty-prompt'
