@@ -8,7 +8,6 @@ class Artist < ActiveRecord::Base
         end 
             #album_instance.artist == self
             #does not work
-         
     end 
 
 end 
