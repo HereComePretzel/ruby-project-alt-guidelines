@@ -1,11 +1,13 @@
 require_relative '../config/environment'
 require_relative '../config/command_line_interface'
+require 'tty-prompt'
+prompt = TTY::Prompt.new
 ActiveRecord::Base.logger = nil
-
 # player = RubyAfplay::Player.new("./bin/parlor.mp3", volume: 2, time: 30, rate: 1)
 # player.play
 # player.pause
 # player.stop
+
 
 puts "Welcome to TheSpin! What's your name?"
 print "Enter your name: "
@@ -14,7 +16,8 @@ artist_name = gets.chomp
 current_user = Artist.find_or_create_by(name: artist_name)
 
 clear!
-puts "You ready to get down, #{current_user.name}!"
+
+puts "You ready to get down, #{current_user.name}?"
 main_menu
 input = gets.chomp
 clear!
@@ -57,7 +60,7 @@ when "2"
     select
     answer = gets.chomp
     clear!
-
+    
         case answer
             when "1"
                 add_album
@@ -72,7 +75,7 @@ when "2"
                 else
                     next_step
                 end
-    
+                
             when "2"
                 puts "Do you want to delete all albums?"
                 puts "Yes/No" 
@@ -84,10 +87,19 @@ when "2"
                 else
                     delete_album 
                 end  
-
+                
             when "3"
                 update_album
+            end
         end
+    when "3" 
+        puts "#{current_user.name}"
+        puts "Number of albums: "
+        puts "#{Album.all.count}"
+        puts "Number of artists: "
+        puts "#{Artist.all.count}"
+        puts "Number of songs: "
+        puts "#{Song.all.count}"
     end
 end
 
