@@ -1,83 +1,105 @@
 require_relative '../config/environment'
+require_relative '../config/command_line_interface'
 ActiveRecord::Base.logger = nil
 
-def clear!
-    puts 'clear'
-end
+# player = RubyAfplay::Player.new("./bin/parlor.mp3", volume: 2, time: 30, rate: 1)
+# player.play
+# player.pause
+# player.stop
 
-puts "Hi Artist! What's your name?"
+puts "Welcome to TheSpin! What's your name?"
 print "Enter your name: "
 artist_name = gets.chomp
 
 current_user = Artist.find_or_create_by(name: artist_name)
 
-puts "Welcome #{current_user.name}"
-puts "What would you like to do next?"
-puts "1. Search Collection"
-puts "2. Modify Collection"
-
-print "Enter your selection: "
+clear!
+puts "You ready to get down, #{current_user.name}!"
+main_menu
 input = gets.chomp
-# clear!
-    case input
-    when "1"
+clear!
+
+while input != "Exit"
+case input
+   when "1"
         puts "How would you like to search?"
         puts "1. Artist"
         puts "2. Album"
         puts "3. Genre"
         puts "4. Release year"
+        puts "5. Song Title"
         print "Enter your selection: "
         input = gets.chomp
+        clear!
             case input
             when "1"
-                puts "Enter Artists' name: "
+                puts "Enter Artist name: "
                 artist_name = gets.chomp 
-                #returns all album instances by artist
+                found_artist = Artist.find_by(name: artist_name)
+                found_artist.albums.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"} 
             when "2"
                 puts "Enter Album name: "
-                #returns all album instances by album_name
+                album_title = gets.chomp
+                xyz = Album.where(album_title: album_title)
+                xyz.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
             when "3"
                 puts "Enter genre name: "
                 genre = gets.chomp
-                #returns all album instances by genre
+                found_album = Album.where(genre: genre)
+                found_album.each {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
+                # table = TTY::Table.new ['Artist','Album','Genre','Year'], [['a1', 'a2', 'a3', 'a4'], ['b1', 'b2']]
+                # renderer = TTY::Table::Renderer::Basic.new(table)
+                # table.render(:ascii)
+                #tty table
             when "4"
                 puts "Enter release year(YYYY): "
-                creation = gets.chomp
-                self.creation_year == creation
-                puts "#{album_title} | #{creation_year} | #{genre}"
-                
-                #returns all album instances by release year
-            end 
+                creation_year = gets.chomp
+                a = Album.where(creation_year: creation_year)
+                a.map {|date_instance| puts "#{date_instance.album_title} | #{date_instance.genre} | #{date_instance.creation_year}"}
+            # when "5"
+            #     puts "Enter song title: "
+            #     song_title = gets.chomp
+            #     found_song = Song.where(song_title: song_title)
+            #     found_song.each {|song_instance| puts "#{song_instance.album_songs}|#{song_instance.genre}|#{song_instance.creation_year}"}
 
     when "2"
-        puts "1. Add Album"
-        puts "2. Remove Album"
-        puts "3. Update Album"
-        print "Enter your selection: "
-        input = gets.chomp
-            case input
+    options
+    select
+    answer = gets.chomp
+    clear!
+
+        case answer
             when "1"
-                puts "Album Name: "
-                input = gets.chomp
-                puts "Artist Name: "
-                input = gets.chomp
-                puts "Genre: "
-                input = gets.chomp
-                puts "Release year: "
-                input = gets.chomp
-                #adds album to collection
+                add_album
+                puts "Would you like to add more albums?"
+                puts "Yes/No"
+                select
+                answer = gets.chomp
+                clear!
+                if answer == "Yes"
+                    add_album
+                    exit_and_menu
+                else
+                    puts "Please select your next step: "
+                    exit_and_menu
+                end
+    
             when "2"
-                puts "Album title: "
-                input = gets.chomp
-                puts "are you sure?"
-                input = gets.chomp
-                #removes album by album_name
+                puts "Do you want to delete all albums?"
+                puts "Yes/No" 
+                select
+                delete_input = gets.chomp
+                clear!
+                if delete_input == "Yes"
+                    delete_all_albums
+                else
+                    delete_album 
+                end  
+
             when "3"
-                puts "Album title: "
-                input = gets.chomp
-                #updates album info
-            end 
-    
-    
-end 
+                update_album
+        end
+    end
+end
+
 
