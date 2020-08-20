@@ -14,12 +14,15 @@ class Album < ActiveRecord::Base
         self.where(genre: genre)
     end
 
-    def self.find_by_artist(artist)
-        self.where(artist: artist)
-            #album_instance.artist == self
-            #does not work
-         
+    def print_artists_names
+        self.artists.uniq.each {|artist_instance| puts artist_instance.name}
     end 
+    # def album_songs
+    #     self.songs.map {|song_instance| song_instance.album_title}
+    # end 
+
+    
+
 
 end # of class 
 
