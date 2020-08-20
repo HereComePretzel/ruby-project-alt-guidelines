@@ -9,7 +9,7 @@ puts "seeding albums"
 # 10.times do (
 # Album.create(album_title:Faker::Music.album, creation_year: rand(1950..2010), genre:Faker::Music.genre) 
 # )
-#end
+# end
 Album.create(album_title: "What's the Story", creation_year: 1990, genre: "Rock")
 Album.create(album_title: "Morning Glory", creation_year: 1991, genre: "Rock")
 Album.create(album_title: "Be Here Now", creation_year: 1992, genre: "Rock")

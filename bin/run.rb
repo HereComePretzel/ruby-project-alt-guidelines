@@ -8,15 +8,10 @@ ActiveRecord::Base.logger = nil
 # player.pause
 # player.stop
 
-def clear!
-    puts `clear`
-end
 
 puts "Welcome to TheSpin! What's your name?"
 print "Enter your name: "
 artist_name = gets.chomp
-
-clear!
 
 current_user = Artist.find_or_create_by(name: artist_name)
 
@@ -28,60 +23,35 @@ input = gets.chomp
 clear!
 
 while input != "Exit"
-    case input
-    when "1"
-        prompt = prompt.select("\nHow would you like to search?", ["Artist", "Album", "Genre", "Release Year"])
-        # puts "How would you like to search?"
-        # puts "1. Artist"
-        # puts "2. Album"
-        # puts "3. Genre"
-        # puts "4. Release year"
-        # puts "5. Song Title"
-        # print "Enter your selection: "
-        # input = gets.chomp
-        clear!
-            
-            if prompt == "Artist"
-                puts "Enter Artist name: "
-                artist_name = gets.chomp 
-                found_artist = Artist.find_by(name: artist_name)
-                found_artist.albums.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"} 
-            
-            elsif prompt == "Album"
-                puts "Enter Album name: "
-                album_title = gets.chomp
-                xyz = Album.where(album_title: album_title)
-                xyz.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
-                
-            
-            elsif prompt == "Genre"
-                puts "Enter genre name: "
-                genre = gets.chomp
-                found_album = Album.where(genre: genre)
-                found_album.each {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
-                # table = TTY::Table.new ['Artist','Album','Genre','Year'], [['a1', 'a2', 'a3', 'a4'], ['b1', 'b2']]
-                # renderer = TTY::Table::Renderer::Basic.new(table)
-                # table.render(:ascii)
-                #tty table
-                
-                
-            else prompt == "Release Year"
-                puts "Enter release year(YYYY): "
-                creation_year = gets.chomp
-                a = Album.where(creation_year: creation_year)
-                a.map {|date_instance| puts "#{date_instance.album_title} | #{date_instance.genre} | #{date_instance.creation_year}"}
-            end 
-        end 
-            
-    
+case input
+when "1"
+    search
+    select
+    reply = gets.chomp
+    clear!
+
+        case reply        
+            when "Artist"
+                search_by_artist_name
+                next_step
+            when "Album"
+                search_by_album_name
+                next_step
+            when "Genre"
+                search_by_genre
+                next_step
+            when "Release Year"
+                search_by_release_year
+                next_step
             # when "5"
             #     puts "Enter song title: "
             #     song_title = gets.chomp
             #     found_song = Song.where(song_title: song_title)
             #     found_song.each {|song_instance| puts "#{song_instance.album_songs}|#{song_instance.genre}|#{song_instance.creation_year}"}
-            end 
-            
-        when "2"
+                # puts "Please select your next step: "
+                # exit_and_menu
+        end
+when "2"
     options
     select
     answer = gets.chomp
@@ -99,8 +69,7 @@ while input != "Exit"
                     add_album
                     exit_and_menu
                 else
-                    puts "Where to now? "
-                    exit_and_menu
+                    next_step
                 end
                 
             when "2"
@@ -118,7 +87,7 @@ while input != "Exit"
             when "3"
                 update_album
             end
-        end
+        
     when "3" 
         puts "#{current_user.name}"
         puts "Number of albums: "
@@ -128,11 +97,7 @@ while input != "Exit"
         puts "Number of songs: "
         puts "#{Song.all.count}"
     end
-end 
-    
-    
-    
-    
-    
-    
-    
+end
+
+
+

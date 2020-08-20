@@ -1,7 +1,9 @@
+# require 'tty-prompt'
+# prompt = TTY::Prompt.new
+
 def clear!
     puts `clear`
 end
-
 
 def main_menu
     puts <<~MainMenu
@@ -26,6 +28,11 @@ def select
     print "Enter your selection: "
 end
 
+def next_step
+    puts "\nPlease select your next step: "
+    exit_and_menu
+end
+
 def exit_and_menu
     puts "1. Main Menu"
     puts "2. Exit"
@@ -42,6 +49,44 @@ def exit_and_menu
         puts "Hope to see you again!"
         exit
     end
+end
+
+def search
+    prompt.select("How would you like to search?", ["Artist case_artist", "Album", "Genre", "Release Year"])
+    # puts "How would you like to search?"
+    # puts "1. Artist"
+    # puts "2. Album"
+    # puts "3. Genre"
+    # puts "4. Release year"
+    # puts "5. Song Title"
+end
+
+def search_by_album_name
+    puts "Enter Album name: "
+    album_title = gets.chomp
+    xyz = Album.where(album_title: album_title)
+    xyz.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
+end
+
+def search_by_artist_name
+    puts "Enter Artist name: "
+    artist_name = gets.chomp 
+    found_artist = Artist.find_by(name: artist_name)
+    found_artist.albums.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
+end
+
+def search_by_genre
+    puts "Enter genre name: "
+    genre = gets.chomp
+    found_album = Album.where(genre: genre)
+    found_album.each {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
+end
+
+def search_by_release_year
+    puts "Enter release year(YYYY): "
+    creation_year = gets.chomp
+    a = Album.where(creation_year: creation_year)
+    a.map {|date_instance| puts "#{date_instance.album_title} | #{date_instance.genre} | #{date_instance.creation_year}"}
 end
 
 def album_list
@@ -77,12 +122,10 @@ def delete_all_albums
     if answer == "Yes"
         Album.all.destroy_all
         puts "All albums are deleted!!!"
-        puts "Please select your next step: "
-        exit_and_menu
+        next_step
     else
         clear!
-        puts "Please select your next step: "
-        exit_and_menu 
+        next_step
     end
 end
 
@@ -100,14 +143,12 @@ def delete_album
     clear!
     if answer == "Yes"
         album_to_delete.destroy 
-    clear!
-    puts "'#{album_to_delete.album_title}' Deleted!"
-    puts "Please select your next step: "
-    exit_and_menu
+        clear!
+        puts "'#{album_to_delete.album_title}' Deleted!"
+        next_step
     else
         clear!
-        puts "Please select your next step: "
-        exit_and_menu 
+        next_step 
     end
 end
 
@@ -132,8 +173,7 @@ def update_album
     )
     clear!
     puts "Your albums are up-to-date!"
-    puts "Please select your next step: "
-    exit_and_menu
+    next_step
 end
 
 
