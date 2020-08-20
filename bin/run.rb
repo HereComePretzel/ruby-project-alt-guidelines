@@ -1,24 +1,22 @@
 require_relative '../config/environment'
+require_relative '../config/command_line_interface'
+ActiveRecord::Base.logger = nil
 
-def clear!
-    puts 'clear'
-end
-
-puts "Hi Artist! What's your name?"
+puts "Welcome to APP NAME! What's your name?"
 print "Enter your name: "
 artist_name = gets.chomp
 
 current_user = Artist.find_or_create_by(name: artist_name)
 
-puts "Welcome #{current_user.name}"
-puts "What would you like to do next?"
-puts "1. Search Collection"
-puts "2. Modify Collection"
 
-print "Enter your selection: "
+clear!
+puts "Hey there, #{current_user.name}!"
+main_menu
 input = gets.chomp
-# clear!
-    case input
+clear!
+
+while input != "Exit"
+  case input
     when "1"
         puts "How would you like to search?"
         puts "1. Artist"
@@ -48,35 +46,50 @@ input = gets.chomp
                 #returns all album instances by release year
             end 
 
-    when "2"
-        puts "1. Add Album"
-        puts "2. Remove Album"
-        puts "3. Update Album"
-        print "Enter your selection: "
-        input = gets.chomp
-            case input
+    
+
+when "2"
+    options
+    select
+    answer = gets.chomp
+    clear!
+
+        case answer
             when "1"
-                puts "Album Name: "
-                input = gets.chomp
-                puts "Artist Name: "
-                input = gets.chomp
-                puts "Genre: "
-                input = gets.chomp
-                puts "Release year: "
-                input = gets.chomp
-                #adds album to collection
+                add_album
+                puts "Would you like to add more albums?"
+                puts "Yes/No"
+                select
+                answer = gets.chomp
+                clear!
+                if answer == "Yes"
+                    add_album
+                    exit_and_menu
+                else
+                    puts "Please select your next step: "
+                    exit_and_menu
+                end
+    
             when "2"
-                puts "Album title: "
-                input = gets.chomp
-                puts "are you sure?"
-                input = gets.chomp
-                #removes album by album_name
+                puts "Do you want to delete all albums?"
+                puts "Yes/No" 
+                select
+                delete_input = gets.chomp
+                clear!
+                if delete_input == "Yes"
+                    delete_all_albums
+                else
+                    delete_album 
+                end  
+
             when "3"
-                puts "Album title: "
-                input = gets.chomp
-                #updates album info
-            end 
-    
-    
-end 
+                update_album
+        end
+    end
+end
+
+
+
+ 
+
 

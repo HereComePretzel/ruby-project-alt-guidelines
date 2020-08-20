@@ -10,5 +10,6 @@ class Artist < ActiveRecord::Base
             #does not work
          
     end 
+
 end 
 
