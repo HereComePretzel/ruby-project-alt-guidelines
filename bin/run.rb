@@ -47,14 +47,14 @@ while input != "Exit"
                 found_artist = Artist.find_by(name: artist_name)
                 found_artist.albums.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"} 
             
-            elsif "2"
+            elsif prompt == "Album"
                 puts "Enter Album name: "
                 album_title = gets.chomp
                 xyz = Album.where(album_title: album_title)
                 xyz.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
                 
             
-            elsif "3"
+            elsif prompt == "Genre"
                 puts "Enter genre name: "
                 genre = gets.chomp
                 found_album = Album.where(genre: genre)
@@ -65,11 +65,13 @@ while input != "Exit"
                 #tty table
                 
                 
-            else "4"
+            else prompt == "Release Year"
                 puts "Enter release year(YYYY): "
                 creation_year = gets.chomp
                 a = Album.where(creation_year: creation_year)
                 a.map {|date_instance| puts "#{date_instance.album_title} | #{date_instance.genre} | #{date_instance.creation_year}"}
+            end 
+        end 
             
     
             # when "5"
