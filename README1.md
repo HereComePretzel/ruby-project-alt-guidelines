@@ -12,13 +12,14 @@ CLI Application created with Ruby, ActiveRecord, Ruby AFPlay, TTY:Prompt, Color,
 2. git clone https://github.com/HereComePretzel/ruby-project-alt-guidelines
 3. cd ruby-project-alt-guidelines
 4. bundle install
-5. type ruby bin/run.rb
-6. follow the commands
+5. add .mp3 to /bin folder
+6. type ruby bin/run.rb
+7. follow the commands
 
 
 ### **Creators:**
 
 
-**Ramazan Ramazanov** - eramazan.ramazanov@glion.ch
+**Ramazan Ramazanov** - ramazan.ramazanov@glion.ch
 
 **Austin Oie** - austinoie@gmail.com
