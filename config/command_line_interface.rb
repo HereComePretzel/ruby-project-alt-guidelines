@@ -175,20 +175,20 @@ def search_by_album_name
     album_title = gets.chomp
     clear!
     sleep 0.25
-    # album_instance = Album.all.find {|album_instance|album_instance.album_title == album_name}
-    # if album_name != album_instance
-    #     clear!
-    #     puts "No result found. Redirecting to Main Menu..."
-    #     sleep 2
-    #     clear!
-    #     main_menu
-    # else
-    puts "List of albums for '#{album_title}': "
-    puts ""
-    xyz = Album.where(album_title: album_title)
-    xyz.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
-    puts ""
-    # end
+    album_instance = Album.find_by(album_title: album_title)
+    if album_instance 
+        puts "List of albums for '#{album_title}': "
+        puts ""
+        xyz = Album.where(album_title: album_title)
+        xyz.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
+        puts ""
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
 
 def search_by_song_title
@@ -196,13 +196,22 @@ def search_by_song_title
     song_title = gets.chomp
     clear!
     sleep 0.25
-    puts "List of albums for '#{song_title}'"
-    puts ""
-    found_song = Song.where(song_title: song_title)
-    x = found_song.map {|song_instance|song_instance.album_id}
-    song_albums = Album.where(id: x)
-    song_albums.map {|album_instance|puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
-    puts ""
+    found_song = Song.find_by(song_title: song_title)
+    if found_song
+        puts "List of albums for '#{song_title}'"
+        puts ""
+        found_song = Song.where(song_title: song_title)
+        x = found_song.map {|song_instance|song_instance.album_id}
+        song_albums = Album.where(id: x)
+        song_albums.map {|album_instance|puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
+        puts ""
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
 
 def search_by_genre
@@ -210,19 +219,20 @@ def search_by_genre
     genre = gets.chomp
     clear!
     sleep 0.25
-    # if genre = Album.find_by(genre: genre)
-    puts "List of albums for '#{genre}': "
-    puts ""
-    found_album = Album.where(genre: genre)
-    found_album.each {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
-    puts ""
-    # else
-        # clear!
-        # puts "No result found. Redirecting to Main Menu..."
-        # sleep 2
-        # clear!
-        # main_menu
-    # end
+    found_genre = Album.find_by(genre: genre)
+    if found_genre
+        puts "List of albums for '#{genre}': "
+        puts ""
+        found_album = Album.where(genre: genre)
+        found_album.each {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
+        puts ""
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
 
 def search_by_release_year
@@ -230,19 +240,20 @@ def search_by_release_year
     creation_year = gets.chomp
     clear!
     sleep 0.25
-    # if creation_year = Album.creation_year(creation_year: creation_year)
-    puts "List of albums released in #{creation_year}"
-    puts ""
-    a = Album.where(creation_year: creation_year)
-    a.map {|date_instance| puts "#{date_instance.album_title} | #{date_instance.genre} | #{date_instance.creation_year}"}
-    puts ""
-    # else
-        # clear!
-        # puts "No result found. Redirecting to Main Menu..."
-        # sleep 2
-        # clear!
-        # main_menu
-    # end
+    found_by_creation_year = Album.find_by(creation_year: creation_year)
+    if found_by_creation_year
+        puts "List of albums released in #{creation_year}"
+        puts ""
+        a = Album.where(creation_year: creation_year)
+        a.map {|date_instance| puts "#{date_instance.album_title} | #{date_instance.genre} | #{date_instance.creation_year}"}
+        puts ""
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
 
 def album_list
