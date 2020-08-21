@@ -18,13 +18,14 @@ def login_page
         current_user = Artist.find_by(name: artist_name)
         clear!
         sleep 0.5
-        if artist_name != Artist.find_by(name: artist_name)
+        if current_user
+            puts "You ready to get down, #{current_user.name}!"
+            puts ""
+            main_menu
+        else
             puts "Sorry! Seems we don't have you in our database. Please sign up!"
             puts ""
             login_page
-        else
-            puts "You ready to get down, #{current_user.name}!"
-            puts ""
         end
     when input == "Sign Up"
         puts "What's Your Name?"
@@ -40,7 +41,7 @@ def login_page
 end
 
 def main_menu
-    input = $prompt.select("What would you like to do next?", ["Search Collection", "Modify Collection", "Exit"])
+    input = $prompt.select("What would you like to do next?", ["Search Collection", "Modify Collection", "Log Out"])
     clear!
     sleep 0.5
     case 
@@ -48,10 +49,11 @@ def main_menu
         selection
     when input == "Modify Collection"
         modify
-    when input == "Exit"
+    when input == "Log Out"
         input = $prompt.select("Are you logging off?", ["Yes", "No"])
         if input == "Yes"
             clear!
+            
             exit
         else
             sleep 0.5
