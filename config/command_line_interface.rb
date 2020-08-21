@@ -53,7 +53,9 @@ def main_menu
         input = $prompt.select("Are you logging off?", ["Yes", "No"])
         if input == "Yes"
             clear!
-            
+            sleep 0.25
+            puts $pastel.white($font.write("Hope to see you again!"))
+            puts ""
             exit
         else
             sleep 0.5
@@ -136,6 +138,9 @@ def exit_and_menu
         input = $prompt.select("Are you logging off?", ["Yes", "No"])
         if input == "Yes"
             clear!
+            sleep 0.25
+            puts $pastel.white($font.write("Hope to see you again!"))
+            puts ""
             exit
         else
             sleep 0.5
