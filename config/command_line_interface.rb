@@ -1,5 +1,5 @@
-# require 'tty-prompt'
-# prompt = TTY::Prompt.new
+require 'tty-prompt'
+prompt = TTY::Prompt.new
 
 def clear!
     puts `clear`
@@ -52,13 +52,11 @@ def exit_and_menu
 end
 
 def search
-    prompt.select("How would you like to search?", ["Artist case_artist", "Album", "Genre", "Release Year"])
-    # puts "How would you like to search?"
-    # puts "1. Artist"
-    # puts "2. Album"
-    # puts "3. Genre"
-    # puts "4. Release year"
-    # puts "5. Song Title"
+    puts "How would you like to search?"
+    puts "1. Artist"
+    puts "2. Album"
+    puts "3. Genre"
+    puts "4. Release year"
 end
 
 def search_by_album_name

@@ -3,8 +3,8 @@ require_relative '../config/command_line_interface'
 require 'tty-prompt'
 prompt = TTY::Prompt.new
 ActiveRecord::Base.logger = nil
-# player = RubyAfplay::Player.new("./bin/parlor.mp3", volume: 2, time: 30, rate: 1)
-# player.play
+player = RubyAfplay::Player.new("./bin/parlor.mp3", volume: 1, time: 300, rate: 1)
+player.play
 # player.pause
 # player.stop
 
@@ -19,40 +19,36 @@ clear!
 
 puts "You ready to get down, #{current_user.name}?"
 main_menu
+menu_items = prompt.select("What would you like to do next?", %w(Search Modify))
 input = gets.chomp
 clear!
 
 while input != "Exit"
-case input
-when "1"
+case input == "Search"
+    when "1"
+    #prompt.select("How would you like to search?", ["Artist", "Album", "Genre", "Release Year"])
     search
     select
     reply = gets.chomp
     clear!
 
-        case reply        
-            when "Artist"
+        case reply       
+            when "1"
                 search_by_artist_name
                 next_step
-            when "Album"
+            when "2"
                 search_by_album_name
                 next_step
-            when "Genre"
+            when "3"
                 search_by_genre
                 next_step
-            when "Release Year"
+            when "4"
                 search_by_release_year
                 next_step
-            # when "5"
-            #     puts "Enter song title: "
-            #     song_title = gets.chomp
-            #     found_song = Song.where(song_title: song_title)
-            #     found_song.each {|song_instance| puts "#{song_instance.album_songs}|#{song_instance.genre}|#{song_instance.creation_year}"}
-                # puts "Please select your next step: "
-                # exit_and_menu
         end
-when "2"
+    when "2"
     options
+    #prompt.select("Please select from the following options: ", ["Add Album", "Remove Album", "Update Album"])
     select
     answer = gets.chomp
     clear!
@@ -60,6 +56,7 @@ when "2"
         case answer
             when "1"
                 add_album
+                #prompt.yes?("Would you like to add more albums?")
                 puts "Would you like to add more albums?"
                 puts "Yes/No"
                 select
@@ -73,6 +70,7 @@ when "2"
                 end
                 
             when "2"
+                #prompt.yes?("Do you want to delete all albums?")
                 puts "Do you want to delete all albums?"
                 puts "Yes/No" 
                 select
@@ -88,15 +86,17 @@ when "2"
                 update_album
             end
         
-    when "3" 
+    when "3"
         puts "#{current_user.name}"
         puts "Number of albums: "
         puts "#{Album.all.count}"
         puts "Number of artists: "
         puts "#{Artist.all.count}"
         puts "Number of songs: "
-        puts "#{Song.all.count}"
-    end
+        print "#{Song.all.count}"
+        
+    end 
+    
 end
 
 
