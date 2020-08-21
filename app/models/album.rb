@@ -13,11 +13,5 @@ class Album < ActiveRecord::Base
     def self.find_by_genre(genre)
         self.where(genre: genre)
     end
-
-    def self.find_by_artist(artist)
-        self.where(artist: artist)
-            #album_instance.artist == self
-            #does not work
-    end 
 end # of class 
 

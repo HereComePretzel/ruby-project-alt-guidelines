@@ -4,7 +4,7 @@ require "tty-prompt"
 prompt = TTY::Prompt.new
 ActiveRecord::Base.logger = nil
 
-player = RubyAfplay::Player.new("./bin/parlor.mp3", volume: 1, time: 2, rate: 1)
+player = RubyAfplay::Player.new("./bin/parlor.mp3", volume: 0.05, time: 10, rate: 1)
 player.play
 # player.pause
 # player.stop
