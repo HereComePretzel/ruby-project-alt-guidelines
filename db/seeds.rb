@@ -6,10 +6,6 @@ Song.destroy_all
 
 #Album (title(s), creationyear(i), genre(s))
 puts "seeding albums"
-# 10.times do (
-# Album.create(album_title:Faker::Music.album, creation_year: rand(1950..2010), genre:Faker::Music.genre) 
-# )
-# end
 Album.create(album_title: "What's the Story", creation_year: 1990, genre: "Rock")
 Album.create(album_title: "Morning Glory", creation_year: 1991, genre: "Rock")
 Album.create(album_title: "Be Here Now", creation_year: 1992, genre: "Rock")
@@ -27,9 +23,6 @@ Album.create(album_title: "Chasing Twisters", creation_year: 1998, genre: "Soft 
 
 #Artist(name(s))
 puts "seeding artists"
-# 10.times do (
-# Artist.create(name:Faker::Music.band))
-# end
 Artist.create(name: "The Beatles")
 Artist.create(name: "The Kinks")
 Artist.create(name: "The Struts")
