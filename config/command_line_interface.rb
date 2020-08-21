@@ -312,11 +312,13 @@ def delete_album
     puts ""
     puts "Select the album id you want to delete:"
     x = gets.chomp.to_i
-    album_to_delete = Album.all.find(x)
-    clear!
-    input = $prompt.select("Are you sure that you want to delete the album '#{album_to_delete.album_title}'?", ["Yes", "No"])
-    clear!
-    sleep 0.25
+    album_found = Album.find_by(id: x)
+    if album_found
+        album_to_delete = Album.all.find(x)
+        clear!
+        input = $prompt.select("Are you sure that you want to delete the album '#{album_to_delete.album_title}'?", ["Yes", "No"])
+        clear!
+        sleep 0.25
     if input == "Yes"
         album_to_delete.destroy 
         clear!
@@ -330,36 +332,52 @@ def delete_album
         clear!
         exit_and_menu
     end
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
 
 def update_album
     album_list
     puts "Please enter album id: "
     y = gets.chomp
-    album_to_update = Album.all.find(y)
-    clear!
-    puts "#{album_to_update.id}. #{album_to_update.album_title} | #{album_to_update.creation_year} | #{album_to_update.genre}"
-    puts ""
-    puts "You can now update album '#{album_to_update.album_title}'"
-    puts ""
-    print "Please enter Album Name: "
-    album_title = gets.chomp
-    puts ""
-    print "Please enter Album Release Year: "
-    creation_year = gets.chomp.to_i
-    puts ""
-    print "Please enter Album Genre: "
-    genre = gets.chomp
-    album_to_update.update(
-    album_title: album_title,
-    creation_year: creation_year,
-    genre: genre
-    )
-    clear!
-    puts "Updating the album '#{album_to_update.album_title}..."
-    sleep 1
-    clear!
-    puts "Your albums are up-to-date!"
-    puts ""
-    exit_and_menu
+    album_found = Album.find_by(id: y)
+    if album_found
+        album_to_update = Album.all.find(y)
+        clear!
+        puts "#{album_to_update.id}. #{album_to_update.album_title} | #{album_to_update.creation_year} | #{album_to_update.genre}"
+        puts ""
+        puts "You can now update album '#{album_to_update.album_title}'"
+        puts ""
+        print "Please enter Album Name: "
+        album_title = gets.chomp
+        puts ""
+        print "Please enter Album Release Year: "
+        creation_year = gets.chomp.to_i
+        puts ""
+        print "Please enter Album Genre: "
+        genre = gets.chomp
+        album_to_update.update(
+        album_title: album_title,
+        creation_year: creation_year,
+        genre: genre
+        )
+        clear!
+        puts "Updating the album '#{album_to_update.album_title}..."
+        sleep 1
+        clear!
+        puts "Your albums are up-to-date!"
+        puts ""
+        exit_and_menu
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
