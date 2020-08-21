@@ -6,8 +6,8 @@ ActiveRecord::Base.logger = nil
 
 player = RubyAfplay::Player.new("./bin/parlor.mp3", volume: 1, time: 30, rate: 1)
 player.play
-player.pause
-player.stop
+# player.pause
+# player.stop
 
 app_intro()
 login_page()
