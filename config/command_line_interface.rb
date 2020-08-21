@@ -127,13 +127,13 @@ def clear!
 end
 
 def exit_and_menu
-    input = $prompt.select("Please select your next step: ", ["Menu", "Exit"])
+    input = $prompt.select("Please select your next step: ", ["Menu", "Log Out"])
     case
     when input == "Menu"
         clear!
         main_menu
         clear!
-    when input == "Exit"
+    when input == "Log Out"
         clear!
         input = $prompt.select("Are you logging off?", ["Yes", "No"])
         if input == "Yes"
@@ -363,10 +363,3 @@ def update_album
     puts ""
     exit_and_menu
 end
-
-
-
-
-
-
-
