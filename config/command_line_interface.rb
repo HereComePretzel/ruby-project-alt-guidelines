@@ -155,19 +155,19 @@ def search_by_artist_name
     artist_name = gets.chomp 
     clear!
     sleep 0.25
-    # if artist_name = Artist.find_by(name: artist_name)
+    found_artist = Artist.find_by(name: artist_name)
+    if found_artist 
         puts "List of albums for '#{artist_name}': "
         puts ""
-        found_artist = Artist.find_by(name: artist_name)
         found_artist.albums.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
         puts ""
-    # else
-        # clear!
-        # puts "No result found. Redirecting to Main Menu..."
-        # sleep 2
-        # clear!
-        # main_menu
-    # end
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
 
 def search_by_album_name
