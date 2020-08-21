@@ -62,7 +62,7 @@ def main_menu
 end
 
 def selection 
-    input = $prompt.select("How would you like to search?", ["Artist", "Album", "Genre", "Release Year", "Back to Main Menu"])
+    input = $prompt.select("How would you like to search?", ["Artist", "Album", "Genre", "Release Year", "Song Title", "Back to Main Menu"])
     clear!
     sleep 0.5
     case        
@@ -77,6 +77,9 @@ def selection
         exit_and_menu
     when input == "Release Year"
         search_by_release_year
+        exit_and_menu
+    when input == "Song Title"
+        search_by_song_title 
         exit_and_menu
     when input == "Back to Main Menu"
         main_menu
@@ -128,8 +131,15 @@ def exit_and_menu
         clear!
     when input == "Exit"
         clear!
-        puts "Hope to see you again!"
-        exit
+        input = $prompt.select("Are you logging off?", ["Yes", "No"])
+        if input == "Yes"
+            clear!
+            exit
+        else
+            sleep 0.5
+            clear!
+            main_menu
+        end
     end
 end
 
@@ -172,6 +182,20 @@ def search_by_album_name
     xyz.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
     puts ""
     # end
+end
+
+def search_by_song_title
+    puts "Enter Song title: "
+    song_title = gets.chomp
+    clear!
+    sleep 0.25
+    puts "List of albums for '#{song_title}'"
+    puts ""
+    found_song = Song.where(song_title: song_title)
+    x = found_song.map {|song_instance|song_instance.album_id}
+    song_albums = Album.where(id: x)
+    song_albums.map {|album_instance|puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
+    puts ""
 end
 
 def search_by_genre
