@@ -19,6 +19,6 @@ CLI Application created with Ruby, ActiveRecord, Ruby AFPlay, TTY:Prompt, Color,
 ### **Creators:**
 
 
-**Ramazan Ramazanov** - email@email.com
+**Ramazan Ramazanov** - eramazan.ramazanov@glion.ch
 
 **Austin Oie** - austinoie@gmail.com
