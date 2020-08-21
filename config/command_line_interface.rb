@@ -4,7 +4,7 @@ $font = TTY::Font.new(:doom)
 $pastel = Pastel.new
 
 def app_intro
-    puts $pastel.white($font.write("Welcome  to TheSpin!"))
+    puts $pastel.white($font.write("The Spin"))
     login_page
 end
 
