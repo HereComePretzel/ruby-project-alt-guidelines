@@ -10,5 +10,13 @@ class Artist < ActiveRecord::Base
             #does not work
     end 
 
+    def album_names
+        self.albums.map {|album_instance| album_instance.album_title}
+    end 
+
+    def album_genres
+        self.albums.map {|album_instance| album_instance.genre}
+    end 
+          
 end 
 

@@ -37,7 +37,7 @@ Artist.create(name: "Brandi Carlisle")
 puts "seeding songs"
 
 100.times do (
-Song.create(song_title:Faker::Books::Lovecraft.deity, artist_id: Artist.all.sample.id, album_id: Album.all.sample.id)
+Song.create(song_title:Faker::Movies::StarWars.droid, artist_id: Artist.all.sample.id, album_id: Album.all.sample.id)
 )
 end
 Song.create(

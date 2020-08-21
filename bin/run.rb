@@ -12,6 +12,3 @@ ActiveRecord::Base.logger = nil
 app_intro()
 login_page()
 main_menu()
-
-
-

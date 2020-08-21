@@ -345,3 +345,10 @@ def update_album
     puts ""
     exit_and_menu
 end
+
+
+
+
+
+
+
