@@ -4,7 +4,7 @@ $font = TTY::Font.new(:doom)
 $pastel = Pastel.new
 
 def app_intro
-    puts $pastel.white($font.write("Welcome  to TheSpin!"))
+    puts $pastel.white($font.write("The Spin"))
     login_page
 end
 
@@ -18,13 +18,14 @@ def login_page
         current_user = Artist.find_by(name: artist_name)
         clear!
         sleep 0.5
-        if artist_name != Artist.find_by(name: artist_name)
+        if current_user
+            puts "You ready to get down, #{current_user.name}!"
+            puts ""
+            main_menu
+        else
             puts "Sorry! Seems we don't have you in our database. Please sign up!"
             puts ""
             login_page
-        else
-            puts "You ready to get down, #{current_user.name}!"
-            puts ""
         end
     when input == "Sign Up"
         puts "What's Your Name?"
@@ -40,7 +41,7 @@ def login_page
 end
 
 def main_menu
-    input = $prompt.select("What would you like to do next?", ["Search Collection", "Modify Collection", "Exit"])
+    input = $prompt.select("What would you like to do next?", ["Search Collection", "Modify Collection", "Log Out"])
     clear!
     sleep 0.5
     case 
@@ -48,10 +49,13 @@ def main_menu
         selection
     when input == "Modify Collection"
         modify
-    when input == "Exit"
+    when input == "Log Out"
         input = $prompt.select("Are you logging off?", ["Yes", "No"])
         if input == "Yes"
             clear!
+            sleep 0.25
+            puts $pastel.white($font.write("Hope to see you again!"))
+            puts ""
             exit
         else
             sleep 0.5
@@ -123,17 +127,20 @@ def clear!
 end
 
 def exit_and_menu
-    input = $prompt.select("Please select your next step: ", ["Menu", "Exit"])
+    input = $prompt.select("Please select your next step: ", ["Menu", "Log Out"])
     case
     when input == "Menu"
         clear!
         main_menu
         clear!
-    when input == "Exit"
+    when input == "Log Out"
         clear!
         input = $prompt.select("Are you logging off?", ["Yes", "No"])
         if input == "Yes"
             clear!
+            sleep 0.25
+            puts $pastel.white($font.write("Hope to see you again!"))
+            puts ""
             exit
         else
             sleep 0.5
@@ -148,19 +155,19 @@ def search_by_artist_name
     artist_name = gets.chomp 
     clear!
     sleep 0.25
-    # if artist_name = Artist.find_by(name: artist_name)
+    found_artist = Artist.find_by(name: artist_name)
+    if found_artist 
         puts "List of albums for '#{artist_name}': "
         puts ""
-        found_artist = Artist.find_by(name: artist_name)
         found_artist.albums.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
         puts ""
-    # else
-        # clear!
-        # puts "No result found. Redirecting to Main Menu..."
-        # sleep 2
-        # clear!
-        # main_menu
-    # end
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
 
 def search_by_album_name
@@ -168,20 +175,20 @@ def search_by_album_name
     album_title = gets.chomp
     clear!
     sleep 0.25
-    # album_instance = Album.all.find {|album_instance|album_instance.album_title == album_name}
-    # if album_name != album_instance
-    #     clear!
-    #     puts "No result found. Redirecting to Main Menu..."
-    #     sleep 2
-    #     clear!
-    #     main_menu
-    # else
-    puts "List of albums for '#{album_title}': "
-    puts ""
-    xyz = Album.where(album_title: album_title)
-    xyz.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
-    puts ""
-    # end
+    album_instance = Album.find_by(album_title: album_title)
+    if album_instance 
+        puts "List of albums for '#{album_title}': "
+        puts ""
+        xyz = Album.where(album_title: album_title)
+        xyz.map {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
+        puts ""
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
 
 def search_by_song_title
@@ -189,13 +196,22 @@ def search_by_song_title
     song_title = gets.chomp
     clear!
     sleep 0.25
-    puts "List of albums for '#{song_title}'"
-    puts ""
-    found_song = Song.where(song_title: song_title)
-    x = found_song.map {|song_instance|song_instance.album_id}
-    song_albums = Album.where(id: x)
-    song_albums.map {|album_instance|puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
-    puts ""
+    found_song = Song.find_by(song_title: song_title)
+    if found_song
+        puts "List of albums for '#{song_title}'"
+        puts ""
+        found_song = Song.where(song_title: song_title)
+        x = found_song.map {|song_instance|song_instance.album_id}
+        song_albums = Album.where(id: x)
+        song_albums.map {|album_instance|puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
+        puts ""
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
 
 def search_by_genre
@@ -203,19 +219,20 @@ def search_by_genre
     genre = gets.chomp
     clear!
     sleep 0.25
-    # if genre = Album.find_by(genre: genre)
-    puts "List of albums for '#{genre}': "
-    puts ""
-    found_album = Album.where(genre: genre)
-    found_album.each {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
-    puts ""
-    # else
-        # clear!
-        # puts "No result found. Redirecting to Main Menu..."
-        # sleep 2
-        # clear!
-        # main_menu
-    # end
+    found_genre = Album.find_by(genre: genre)
+    if found_genre
+        puts "List of albums for '#{genre}': "
+        puts ""
+        found_album = Album.where(genre: genre)
+        found_album.each {|album_instance| puts "#{album_instance.album_title} | #{album_instance.genre} | #{album_instance.creation_year}"}
+        puts ""
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
 
 def search_by_release_year
@@ -223,19 +240,20 @@ def search_by_release_year
     creation_year = gets.chomp
     clear!
     sleep 0.25
-    # if creation_year = Album.creation_year(creation_year: creation_year)
-    puts "List of albums released in #{creation_year}"
-    puts ""
-    a = Album.where(creation_year: creation_year)
-    a.map {|date_instance| puts "#{date_instance.album_title} | #{date_instance.genre} | #{date_instance.creation_year}"}
-    puts ""
-    # else
-        # clear!
-        # puts "No result found. Redirecting to Main Menu..."
-        # sleep 2
-        # clear!
-        # main_menu
-    # end
+    found_by_creation_year = Album.find_by(creation_year: creation_year)
+    if found_by_creation_year
+        puts "List of albums released in #{creation_year}"
+        puts ""
+        a = Album.where(creation_year: creation_year)
+        a.map {|date_instance| puts "#{date_instance.album_title} | #{date_instance.genre} | #{date_instance.creation_year}"}
+        puts ""
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
 
 def album_list
@@ -294,11 +312,13 @@ def delete_album
     puts ""
     puts "Select the album id you want to delete:"
     x = gets.chomp.to_i
-    album_to_delete = Album.all.find(x)
-    clear!
-    input = $prompt.select("Are you sure that you want to delete the album '#{album_to_delete.album_title}'?", ["Yes", "No"])
-    clear!
-    sleep 0.25
+    album_found = Album.find_by(id: x)
+    if album_found
+        album_to_delete = Album.all.find(x)
+        clear!
+        input = $prompt.select("Are you sure that you want to delete the album '#{album_to_delete.album_title}'?", ["Yes", "No"])
+        clear!
+        sleep 0.25
     if input == "Yes"
         album_to_delete.destroy 
         clear!
@@ -312,43 +332,52 @@ def delete_album
         clear!
         exit_and_menu
     end
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
 
 def update_album
     album_list
     puts "Please enter album id: "
     y = gets.chomp
-    album_to_update = Album.all.find(y)
-    clear!
-    puts "#{album_to_update.id}. #{album_to_update.album_title} | #{album_to_update.creation_year} | #{album_to_update.genre}"
-    puts ""
-    puts "You can now update album '#{album_to_update.album_title}'"
-    puts ""
-    print "Please enter Album Name: "
-    album_title = gets.chomp
-    puts ""
-    print "Please enter Album Release Year: "
-    creation_year = gets.chomp.to_i
-    puts ""
-    print "Please enter Album Genre: "
-    genre = gets.chomp
-    album_to_update.update(
-    album_title: album_title,
-    creation_year: creation_year,
-    genre: genre
-    )
-    clear!
-    puts "Updating the album '#{album_to_update.album_title}..."
-    sleep 1
-    clear!
-    puts "Your albums are up-to-date!"
-    puts ""
-    exit_and_menu
+    album_found = Album.find_by(id: y)
+    if album_found
+        album_to_update = Album.all.find(y)
+        clear!
+        puts "#{album_to_update.id}. #{album_to_update.album_title} | #{album_to_update.creation_year} | #{album_to_update.genre}"
+        puts ""
+        puts "You can now update album '#{album_to_update.album_title}'"
+        puts ""
+        print "Please enter Album Name: "
+        album_title = gets.chomp
+        puts ""
+        print "Please enter Album Release Year: "
+        creation_year = gets.chomp.to_i
+        puts ""
+        print "Please enter Album Genre: "
+        genre = gets.chomp
+        album_to_update.update(
+        album_title: album_title,
+        creation_year: creation_year,
+        genre: genre
+        )
+        clear!
+        puts "Updating the album '#{album_to_update.album_title}..."
+        sleep 1
+        clear!
+        puts "Your albums are up-to-date!"
+        puts ""
+        exit_and_menu
+    else
+        clear!
+        puts "No result found. Redirecting to Main Menu..."
+        sleep 2
+        clear!
+        main_menu
+    end
 end
-
-
-
-
-
-
-

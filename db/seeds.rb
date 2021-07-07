@@ -40,9 +40,4 @@ puts "seeding songs"
 Song.create(song_title:Faker::Movies::StarWars.droid, artist_id: Artist.all.sample.id, album_id: Album.all.sample.id)
 )
 end
-Song.create(
-    song_title: "Yesterday", 
-    artist_id: rand {1..300}, 
-    album_id: rand {1..500}
-    )
 puts "seeding complete"
